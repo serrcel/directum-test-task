@@ -1,0 +1,9 @@
+﻿<Project>
+  <PropertyGroup>
+    <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefaultNetCoreTargetFramework>net9.0</DefaultNetCoreTargetFramework>
+  </PropertyGroup>
+</Project>

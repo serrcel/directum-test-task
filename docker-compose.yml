@@ -1,0 +1,20 @@
+﻿services:
+  # PostgreSQL:
+  postgresql:
+    container_name: PostgreSQL
+    build:
+      context: docker/postgresql
+      args:
+        - POSTGRES_VERSION=${POSTGRES_VERSION}
+    networks:
+      - postgresql
+
+  # Backend App
+  directum-app:
+    build:
+      context: .
+      dockerfile: Directum.Backend/Directum.Backend.API/Dockerfile
+    depends_on:
+      - postgresql
+    networks:
+      - postgresql

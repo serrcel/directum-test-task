@@ -1,0 +1,39 @@
+﻿services:
+  # PostgreSQL
+  postgresql:
+    volumes:
+      - /var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+
+  # PgAdmin
+  pgadmin:
+    image: dpage/pgadmin4:7
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "root"
+    volumes:
+      - ./appdata/pdadmin:/home/rundeck/server/data
+    ports:
+      - "5050:80"
+    networks:
+      - postgresql
+
+  # Backend app
+  directum-app:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__PostgresSqlConnection=${POSTGRESQL_CONNECTION_STRING}
+    ports:
+      - "80:80"
+
+networks:
+  postgresql:
+    driver: ${NETWORKS_DRIVER}
