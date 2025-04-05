@@ -1,9 +1,16 @@
-﻿namespace Directum.Backend.API;
+var builder = WebApplication.CreateBuilder(args);
 
-class Program
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
 {
-    static void Main(string[] args)
-    {
-        Console.WriteLine("Hello, World!");
-    }
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.MapGet("/", () => "Привет! Перейдите на /swagger чтобы увидеть потыкать что-нибудь.");
+
+app.Run();
