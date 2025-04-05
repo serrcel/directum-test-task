@@ -1,4 +1,6 @@
+using Directum.Backend.Infrastructure.Data;
 using Directum.Backend.Infrastructure.DI;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,13 +11,18 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
+// Applying migrations
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await db.Database.MigrateAsync();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.MapGet("/", () => "Привет! Перейдите на /swagger чтобы увидеть потыкать что-нибудь.");
 
 await app.RunAsync();
 

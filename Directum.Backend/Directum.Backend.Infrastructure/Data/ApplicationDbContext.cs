@@ -8,9 +8,9 @@ public class ApplicationDbContext: DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options) { }
 
-    public DbSet<Post> Posts => Set<Post>();
-    public DbSet<Comment> Comments => Set<Comment>();
-    public DbSet<Event> Events => Set<Event>();
+    public DbSet<Post> Posts => this.Set<Post>();
+    public DbSet<Comment> Comments => this.Set<Comment>();
+    public DbSet<Event> Events => this.Set<Event>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
